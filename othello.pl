@@ -1,5 +1,8 @@
 %OTHELLO
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%%%%%%%
+% Predicat : grilleDeDepart/1
 % Definition de la grille de depart de jeu
 % il n y a pas besoin de guillemets pour chaque element de la liste
 grilleDeDepart([[-,-,-,-,-,-,-,-],
@@ -11,10 +14,13 @@ grilleDeDepart([[-,-,-,-,-,-,-,-],
 [-,-,-,-,-,-,-,-],
 [-,-,-,-,-,-,-,-]]).
 
+%%%%%%%
+% Predicat : grilleTest/1
 % Garder la possibilite de faire des tests sur une grille plus petite 
 grilleTest([[-,-,-],[x,o,-],[-,-,-]]).
 
-
+%%%%%%%
+% Predicat : toutesLesCasesDepart/1
 % lister toutes les cases disponibles pour jouer
 toutesLesCasesDepart([[a,1],[b,1],[c,1],[d,1],[e,1],[f,1],[g,1],[h,1],
 		      [a,2],[b,2],[c,2],[d,2],[e,2],[f,2],[g,2],[h,2],
@@ -26,7 +32,8 @@ toutesLesCasesDepart([[a,1],[b,1],[c,1],[d,1],[e,1],[f,1],[g,1],[h,1],
 		      [a,8],[b,8],[c,8],[d,8],[e,8],[f,8],[g,8],[h,8]]).
 
 
-
+%%%%%%%
+% Predicat : toutesLesCases/1
 % lister toutes les cases du jeu
 toutesLesCases([[a,1],[b,1],[c,1],[d,1],[e,1],[f,1],[g,1],[h,1],
 		[a,2],[b,2],[c,2],[d,2],[e,2],[f,2],[g,2],[h,2],
@@ -44,6 +51,7 @@ toutesLesCases([[a,1],[b,1],[c,1],[d,1],[e,1],[f,1],[g,1],[h,1],
 campAdverse(x,o).
 campAdverse(o,x).
 
+%%%%%%%
 % Predicat : campJoueur2/1
 % Usage : campJoueur2(CampJ2) est satisfait si CampJ2 est le camp du joueur 2
 % Le campJoueur1 est defini dynamiquement en debut de jeu et peut etre modifie en fonction
@@ -114,6 +122,8 @@ menuPrincipal:-
 	lanceChoix(Choix),!.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% Predicat : saisieChoix/1
+% Usage : demande et récupère le choix d'un utilisateur
 saisieChoix(Choix):-
 	writeln('Choisissez une option (sans oublier le point) : '),
 	read(Choix).

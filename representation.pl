@@ -38,14 +38,20 @@ afficheLigne([A | AS]) :- write('|'), tab(1), write(A), tab(1), afficheLigne(AS)
 % Le prédicat permet d'afficher une grille générique
 afficheGrille(A) :- tab(1),affLettres(A, a), nl, afficheGrille2(A, 1).
 
+%%%%%%%
+% Predicat : afficheGrille/2
 afficheGrille2([], _).
 afficheGrille2([A | AS], B) :- affNum(B, C),afficheLigne(A), nl,afficheGrille2(AS, C).
 
+%%%%%%%
+% Predicat : affLettres/2
 %Affiche les lettres au dessus de la grille
 affLettres([], _).
 affLettres([_|AS], A):- tab(3), write(A), succAlphaO(A,B), affLettres(AS,B).
 affLettres([_|AS], A):- succAlphaS(A,B), affLettres(AS,B).
 
+%%%%%%%
+% Predicat : affNum/2
 %Affiche les numéros de ligne
 affNum(A, B) :- write(A), tab(1), succNumO(A,B).
 affNum(A, B) :- succNumS(A,B).

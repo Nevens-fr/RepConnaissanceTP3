@@ -1,5 +1,7 @@
 :- dynamic succAlphaT/2, succNumT/2.
 % version recursive
+%%%%%%%
+% Predicat : coupJoueDansLigne/4
 %coupJoueDansLigne(b, b, [a,-,c], [a,-,c]).
 %Ce prédicat modifie une ligne si celle-ci possède l'emplacement libre à la position donnée
 coupJoueDansLigne(a, Val, [-|Reste],[Val|Reste]).
@@ -50,6 +52,8 @@ partieGagnee(Val, G) :- colonneExiste(Val, G, _).
 partieGagnee(Val, G) :- diagonaleGD(Val, G).
 partieGagnee(Val, G) :- diagonaleDG(Val, G).
 
+%%%%%%%
+% Predicat : ligneFaite/2
 % ligneFaite(-,[-,-,-]).
 % Vérifie si une ligne est remplie
 ligneFaite(Val, [Val]).

@@ -1,14 +1,19 @@
-:- dynamic lanceJeu/0.
+
 %%%%%%%
 % Predicat : loadTicTacToe/0
-% Charge tous les fichiers relatif au tic tac toe et exécute le jeu
+% Charge tous les fichiers relatif au tic tac toe et demande au joueur de choisir le mode de jeu
 loadTicTacToe:-
     consult(tictactoe),
     consult(evaluation),
     consult(minmax),
     consult(regle),
     consult(representation),
-    lanceJeu.
+    writeln("Sélectionnez le mode de jeu : "), nl,
+    writeln("1 - Joueur VS IA"), nl,
+    writeln("2 - Joueur VS Joueur"), nl,
+    read(NumeroMode),
+    lancementMode(NumeroMode).
+
 
 %%%%%%%
 % Predicat : loadOthello/0
@@ -38,3 +43,9 @@ menuPrincipal:-
 % De lancement de jeu
 lancementJeu(1):- loadTicTacToe.
 lancementJeu(2):- loadOthello.
+
+%%%%%%%
+% Predicat : lancementMode/1
+% Predicat permettant de lancer le bon mode de jeu du Tic Tac Toe
+lancementMode(1):- lanceJeu.
+lancementMode(2):- lanceJeuJcJ.
