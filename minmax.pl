@@ -21,23 +21,22 @@ minmaxT2(Grille, [A |ListeCoupsNew], PtDeb,Camp, V):-
 % Predicat : calculCoupT/7
 %Condition de sortie
 calculCoupT(_, _, [], _, _, _, _, _, _).
-calculCoupT(_,_,_,PDB,PF,_,_, ProfMax, ProfMax) :- PF is PDB.
-calculCoupT(_,_,_,_,_,_,_, ProfMax, ProfMax).
+calculCoupT(_,_,_,_,P,_,_, ProfMax, ProfMax):-P is 0.
 %IA gagne
 calculCoupT(Grille, [Lettre | Num], _, PointDeb, PointRet, CampA, CampCopaing, _, _) :-
     joueLeCoupMinMaxT([Lettre,Num], CampA, Grille, GrilleArr), 
     partieGagnee(CampA, GrilleArr),
     get(CampA,CampCopaing),
-    PointRet is PointDeb + 10.
+    PointRet is PointDeb + 10, !.
 %Joueur gagne
 calculCoupT(Grille, [Lettre | Num], _, PointDeb, PointRet, CampA, _, _,_) :-
     joueLeCoupMinMaxT([Lettre,Num], CampA, Grille, GrilleArr), 
     partieGagnee(CampA, GrilleArr),
-    PointRet is PointDeb -10.
+    PointRet is PointDeb -10, !.
 
 % Test un coup pour l'IA
 calculCoupT(Grille, [Lettre | Num], [A |_], PointDeb, PointRet, CampA, CampCopaing, ProfInd, ProfMax) :-
-    Prof1 is ProfInd + 1, write(Prof1), write('\n'),
+    Prof1 is ProfInd + 1,
     Prof1 < ProfMax,
     joueLeCoupMinMaxT([Lettre,Num], CampA, Grille, GrilleArr),                                    % joue le coup
     tailleListe(Grille, 0, Taille),
@@ -45,17 +44,18 @@ calculCoupT(Grille, [Lettre | Num], [A |_], PointDeb, PointRet, CampA, CampCopai
     campAdverse(CampA, CampB),                                                                    % On récupère le camp adverse,
     trouveNewCoups(Taille, 0, GrilleArr, [], [0,0], LC2),                                            % Récupération des nouveaux coups valides
     calculCoupT(GrilleArr, A, LC2, PointDeb, Pt, CampB,CampCopaing, Prof1, ProfMax),                              % Appel récursif
-    get(PointRet, Pt).                                                                      % Ajout de points
+    get(PointRet, Pt),!.                                                                      % Ajout de points
 
 % Test un coup pour le joueur
 calculCoupT(Grille, [Lettre | Num], [A |_], PointDeb, PointRet, CampA, CampCopaing, ProfInd, ProfMax) :-
     ProfInd < ProfMax,
+    Prof1 is ProfInd + 1,
     joueLeCoupMinMaxT([Lettre,Num], CampA, Grille, GrilleArr),
     tailleListe(Grille, 0, Taille),
     campAdverse(CampA, CampB),                                                                   % On récupère le camp adverse,
     trouveNewCoups(Taille, 0, GrilleArr, [], [0,0], LC2),                                               % Récupération des nouveaux coups valides
-    calculCoupT(GrilleArr, A, LC2, PointDeb, Pt, CampB,CampCopaing, ProfInd, ProfMax),        
-    get(PointRet, Pt).
+    calculCoupT(GrilleArr, A, LC2, PointDeb, Pt, CampB,CampCopaing, Prof1, ProfMax),        
+    get(PointRet, Pt),!.
 
 %%%%%%%
 % Predicat : trouveNewCoups/6
