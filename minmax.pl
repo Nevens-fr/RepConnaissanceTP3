@@ -39,7 +39,8 @@ calculCoupT(Grille, [Lettre | Num], [A |_], PointDeb, PointRet, CampA, CampCopai
     Prof1 is ProfInd + 1,
     Prof1 < ProfMax,
     joueLeCoupMinMaxT([Lettre,Num], CampA, Grille, GrilleArr),                                    % joue le coup
-    tailleListe(Grille, 0, Taille),
+    tailleListe(Grille, 0, Taille1),
+    Taille is Taille1 * Taille1,
     get(CampA,CampCopaing),                                                                           % On regarde qui a joué
     campAdverse(CampA, CampB),                                                                    % On récupère le camp adverse,
     trouveNewCoups(Taille, 0, GrilleArr, [], [0,0], LC2),                                            % Récupération des nouveaux coups valides
@@ -51,7 +52,8 @@ calculCoupT(Grille, [Lettre | Num], [A |_], PointDeb, PointRet, CampA, CampCopai
     ProfInd < ProfMax,
     Prof1 is ProfInd + 1,
     joueLeCoupMinMaxT([Lettre,Num], CampA, Grille, GrilleArr),
-    tailleListe(Grille, 0, Taille),
+    tailleListe(Grille, 0, Taille1),
+    Taille is Taille1 * Taille1,
     campAdverse(CampA, CampB),                                                                   % On récupère le camp adverse,
     trouveNewCoups(Taille, 0, GrilleArr, [], [0,0], LC2),                                               % Récupération des nouveaux coups valides
     calculCoupT(GrilleArr, A, LC2, PointDeb, Pt, CampB,CampCopaing, Prof1, ProfMax),        
@@ -61,18 +63,19 @@ calculCoupT(Grille, [Lettre | Num], [A |_], PointDeb, PointRet, CampA, CampCopai
 % Predicat : trouveNewCoups/6
 %Retourne une liste de coups valides
 trouveNewCoups(Taille, Taille, _, A, _, L) :- get(A,L).
-trouveNewCoups(Taille, Ind, GrilleDep, A, Coup, L1):- 
-    coordonneesOuListe(Col, Lig, Coup),
+trouveNewCoups(Taille, Ind, GrilleDep, A, [Col,Lig], L1):- 
 	coupValideL(GrilleDep, Col, Lig, 0, R1),
     get(R1,-),
-    add_list(A, Coup, L), 
+    extends([Col,Lig], A, L), 
     Ind1 is Ind + 1,
-    upCase(Taille, Coup, Coup1),
-    trouveNewCoups(Taille, Ind1, GrilleDep, L, Coup1, L1).
+    Taille1 is sqrt(Taille),
+    upCase(Taille1, [Col,Lig], Coup1),
+    trouveNewCoups(Taille, Ind1, GrilleDep, L, Coup1, L1),!.
 trouveNewCoups(Taille, Ind, GrilleDep, A, Coup, L1):- 
     Ind1 is Ind + 1,
-    upCase(Taille, Coup, Coup1),
-    trouveNewCoups(Taille, Ind1, GrilleDep, L, Coup1, L1).
+    Taille1 is sqrt(Taille),
+    upCase(Taille1, Coup, Coup1),
+    trouveNewCoups(Taille, Ind1, GrilleDep, L, Coup1, L1),!.
 
 %%%%%%%
 % Predicat : upCase/3
@@ -133,3 +136,7 @@ extract2([A|_], C, C, X) :- get(A,X).
 % Predicat : get/2
 %copie d'un élément
 get(A,A).
+
+% Ajout d'une liste dans la liste
+extends(Element, List, Extended) :-
+    append(List, [Element], Extended).
