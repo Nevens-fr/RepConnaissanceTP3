@@ -1,1 +1,1 @@
-t(N,V):- V is N / N.
+premierCoup([[A,B]|_], [A,B]).
