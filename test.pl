@@ -1,1 +1,0 @@
-premierCoup([[A,B]|_], [A,B]).

@@ -60,7 +60,7 @@ moteur(Grille,_,Camp):-
 moteur(_,[],_) :-nl, write('game over').
 
 % cas ou l ordinateur doit jouer
-moteur(Grille, [Premier|ListeCoupsNew], Camp) :-
+moteur(Grille, ListeCoupsNew, Camp) :-
 	campCPU(Camp),
 	minmaxT(Grille, ListeCoupsNew, Camp, GrilleArr),
 	campAdverse(AutreCamp, Camp),
